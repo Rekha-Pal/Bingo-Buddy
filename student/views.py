@@ -63,11 +63,9 @@ def take_exam_view(request,pk):
     course=QMODEL.Course.objects.get(id=pk)
     total_questions=QMODEL.Question.objects.all().filter(course=course).count()
     questions=QMODEL.Question.objects.all().filter(course=course)
-    total_marks=0
-    for q in questions:
-        total_marks=total_marks + q.marks
+
     
-    return render(request,'student/take_exam.html',{'course':course,'total_questions':total_questions,'total_marks':total_marks})
+    return render(request,'student/take_exam.html',{'course':course,'total_questions':total_questions})
 """
 @login_required(login_url='studentlogin')
 @user_passes_test(is_student)
