@@ -64,7 +64,6 @@ def admin_teacher_view(request):
     dict={
     'total_teacher':TMODEL.Teacher.objects.all().filter(status=True).count(),
     'pending_teacher':TMODEL.Teacher.objects.all().filter(status=False).count(),
-    #'salary':TMODEL.Teacher.objects.all().filter(status=True).aggregate(Sum('salary'))['salary__sum'],
     }
     return render(request,'quiz/admin_teacher.html',context=dict)
 
@@ -113,12 +112,11 @@ def admin_view_pending_teacher_view(request):
 
 @login_required(login_url='adminlogin')
 def approve_teacher_view(request,pk):
-    if request.method=='POST':
-        teacher=TMODEL.Teacher.objects.get(id=pk)
-        teacher.status=True
-        teacher.save()
-        return HttpResponseRedirect('/admin-view-pending-teacher')
-    #return render(request,'quiz/salary_form.html',{'teacherSalary':teacherSalary})
+    #if request.method=='POST':
+    teacher=TMODEL.Teacher.objects.get(id=pk)
+    teacher.status=True
+    teacher.save()
+    return HttpResponseRedirect('/admin-view-pending-teacher')
 
 @login_required(login_url='adminlogin')
 def reject_teacher_view(request,pk):
@@ -127,13 +125,7 @@ def reject_teacher_view(request,pk):
     user.delete()
     teacher.delete()
     return HttpResponseRedirect('/admin-view-pending-teacher')
-"""
-@login_required(login_url='adminlogin')
-def admin_view_teacher_salary_view(request):
-    teachers= TMODEL.Teacher.objects.all().filter(status=True)
-    return render(request,'quiz/admin_view_teacher_salary.html',{'teachers':teachers})
 
-"""
 
 
 @login_required(login_url='adminlogin')
