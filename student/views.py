@@ -8,9 +8,11 @@ from django.conf import settings
 from datetime import date, timedelta
 from quiz import models as QMODEL
 from teacher import models as TMODEL
+from student.models import Game
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 import random
+from django.core import serializers
 
 
 #for showing signup/login button for student
@@ -57,6 +59,40 @@ def student_exam_view(request):
     courses=QMODEL.Course.objects.all()
     return render(request,'student/student_exam.html',{'courses':courses})
 
+def enter_game(request,pk):
+    global cid
+    cid = {}
+    cid['pk'] = pk
+    return render(request,'student/start_game.html')
+def game(request):
+    if request.method == "POST":
+        render(request, 'student/start_game.html')
+        username = request.user.username
+        #username = request.POST.get('username')
+        option = request.POST.get('option')
+        room_code = request.POST.get('room_code')
+
+        if option == '1':
+            game = Game.objects.filter(room_code=room_code).first()
+
+            if game is None:
+                messages.success(request, "Room code not found")
+                return redirect('enter_game',cid['pk'])
+
+            if game.is_over:
+                messages.success(request, "Game is over")
+                return redirect('enter_game',cid['pk'])
+
+            game.game_opponent = username
+            game.save()
+        else:
+            game = Game(game_creator=username, room_code=room_code)
+            game.save()
+            return redirect('start-exam/' + room_code + '?username=' + username)
+
+    return redirect('student-exam')
+
+
 @login_required(login_url='studentlogin')
 @user_passes_test(is_student)
 def take_exam_view(request,pk):
@@ -67,12 +103,11 @@ def take_exam_view(request,pk):
     
     return render(request,'student/take_exam.html',{'course':course,'total_questions':total_questions})
 
-
-
 @login_required(login_url='studentlogin')
 @user_passes_test(is_student)
-def startTest(request,pk):
-    course = QMODEL.Course.objects.get(id=pk)
+def startTest(request,room_code):
+    username = request.GET.get('username')
+    course = QMODEL.Course.objects.get(id=cid['pk'])
     count = QMODEL.Question.objects.all().filter(course=course).count()
     l = []
     for i in range(1,count):
@@ -126,15 +161,18 @@ def startTest(request,pk):
     diags.append(diag2)
     d['diagonals'] = diags
 
+    d['room_code'] = room_code
+    d['username'] = username
+
     global ques
     ques = []
-    return redirect('testPaper',pk)
+    return redirect('/student/test/' + room_code + '?username=' + username)
 
 @login_required(login_url='studentlogin')
 @user_passes_test(is_student)
-def testPaper(request,pk):
+def testPaper(request,room_code):
     if(d['count']>0):
-        course = QMODEL.Course.objects.get(id=pk)
+        course = QMODEL.Course.objects.get(id=cid['pk'])
         random.shuffle(d['qnos'])
         qid = d['qnos'].pop()
         d['count'] = d['count']-1
@@ -162,7 +200,7 @@ def result(request):
             messages.info(request,"Sorry, Your answer is not correct")
         d['marked'] = ques
         pk = q.course.id
-    return redirect('testPaper',pk)
+    return redirect('/student/test/'+ d['room_code']+ '?username=' + d['username'])
 
 @login_required(login_url='studentlogin')
 @user_passes_test(is_student)
@@ -221,7 +259,7 @@ def LetsBingo(request,pk):
             result.save()
             return render(request, 'student/win.html',d)
 
-    return redirect('testPaper',pk)
+    return redirect('/student/test/'+d['room_code']+ '?username=' + d['username'])
 
 
 @login_required(login_url='studentlogin')

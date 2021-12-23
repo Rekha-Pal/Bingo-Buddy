@@ -10,6 +10,8 @@ path('studentsignup', views.student_signup_view,name='studentsignup'),
 path('student-dashboard', views.student_dashboard_view,name='student-dashboard'),
 path('student-exam', views.student_exam_view,name='student-exam'),
 path('take-exam/<int:pk>', views.take_exam_view,name='take-exam'),
+path('enter-game/<int:pk>',views.enter_game,name='enter_game'),
+path('game',views.game,name='game'),
 #path('start-exam/<int:pk>', views.start_exam_view,name='start-exam'),
 
 #path('calculate-marks', views.calculate_marks_view,name='calculate-marks'),
@@ -19,8 +21,8 @@ path('student-marks', views.student_marks_view,name='student-marks'),
 
 
 #path('starttest/<int:pk>',views.startTest,name='start'),
-path('start-exam/<int:pk>',views.startTest,name='start-exam'),
-path('test/<int:pk>',views.testPaper,name='testPaper'),
+path('start-exam/<room_code>',views.startTest,name='start-exam'),
+path('test/<room_code>',views.testPaper,name='test'),
 re_path('result/',views.result,name='result'),
 path('LetsBingo/<int:pk>',views.LetsBingo,name='letsBingo'),
 ]

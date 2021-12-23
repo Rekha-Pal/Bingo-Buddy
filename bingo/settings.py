@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'teacher',
     'student',
     'widget_tweaks',
-
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -75,6 +75,16 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'bingo.wsgi.application'
+ASGI_APPLICATION = 'bingo.asgi.application'
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
+    },
+}
 
 
 # Database

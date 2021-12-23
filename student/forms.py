@@ -16,3 +16,4 @@ class StudentForm(forms.ModelForm):
         model=models.Student
         fields=['address','mobile','profile_pic']
 
+
