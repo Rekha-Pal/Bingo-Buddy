@@ -10,26 +10,20 @@ class GameRoom(WebsocketConsumer):
         print(self.room_group_name)
 
         async_to_sync(self.channel_layer.group_add)(
+            #self.room_name,
             self.room_group_name,
             self.channel_name
         )
-
         self.accept()
+        self.send(text_data=json.dumps({'status' :'connected from django channels'}))
 
-    def disconnect(self):
-        async_to_sync(self.channel_layer.group_discard)(
-            self.room_group_name,
-            self.channel_name
-        )
+    def disconnect(self,*args,**kwargs):
+        print('disconnected')
 
     def receive(self, text_data):
         print(text_data)
-        async_to_sync(self.channel_layer.group_send)(
-            self.room_group_name, {
-                'type': 'run_game',
-                'payload': text_data
-            }
-        )
+        self.send(text_data=json.dumps(text_data))
+
 
     def run_game(self, event):
         data = event['payload']

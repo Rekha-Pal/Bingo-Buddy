@@ -83,6 +83,7 @@ CHANNEL_LAYERS = {
         "CONFIG": {
             "hosts": [("localhost", 6379)],
         },
+
     },
 }
 

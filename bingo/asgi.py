@@ -21,7 +21,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bingo.settings')
 application = get_asgi_application()
 
 ws_pattern = [
-    url('ws/student/test/<room_code>',GameRoom)
+    path('student/test/<room_code>',GameRoom.as_asgi()),
 ]
 
 application = ProtocolTypeRouter(
