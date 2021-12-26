@@ -93,7 +93,20 @@
     </div>
 
     <script>
+
+        var room_code = '{{ room_code }}'
+        var username = '{{ username }}'
         let socket = new WebSocket('ws://localhost:8000/student/test/'+room_code)
+        socket.onopen = function (e){
+            console.log('Socket connected')
+        }
+        socket.onclose = function (e){
+            console.log('Socket closed')
+        }
+        var over = '{{ gameover }}'
+        if(over == 'false'){
+            swal("Good over!" , "Game end no one won" , "warning")
+        }
     </script>
     </body>
 {% endblock %}

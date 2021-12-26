@@ -19,6 +19,9 @@ class Question(models.Model):
     cat=(('Option1','Option1'),('Option2','Option2'),('Option3','Option3'),('Option4','Option4'))
     answer=models.CharField(max_length=200,choices=cat)
 
+    def __str__(self):
+        return self.question
+
 class Result(models.Model):
     student = models.ForeignKey(Student,on_delete=models.CASCADE)
     exam = models.ForeignKey(Course,on_delete=models.CASCADE)
