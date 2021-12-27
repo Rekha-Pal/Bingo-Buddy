@@ -5,16 +5,20 @@
             Test
         </title>
         <style>
-            .boardcontainer {
-        width: 100%;
-        padding-top: 100%;
+        .boardcontainer {
+        width: 20%;
+        height: 20%;
         /* 1:1 Aspect Ratio */
+        padding-top: 0%;
         position: relative;
+        left: 700px;
+        top: 30px;
         /* If you want text inside of it */
     }
 
     .board {
         position: absolute;
+        height: 10px;
         top: 0;
         left: 0;
         bottom: 0;
@@ -22,8 +26,8 @@
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
         grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-        grid-column-gap: 2px;
-        grid-row-gap: 2px;
+        grid-column-gap: 1px;
+        grid-row-gap: 1px;
     }
     .space {
         background-color: #ccc;
@@ -33,6 +37,8 @@
         font-family: "Quicksand";
         font-weight: 300;
         font-size: 3em;
+        height: 70px;
+        width: 70px;
     }
 
         </style>
