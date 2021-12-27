@@ -7,15 +7,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <style media="screen">
-    .jumbotron {
+    .jumb {
       margin-top: 0px;
       margin-bottom: 0px;
+      position: absolute;
+      top: 20%;
+      left: 10%;
+      color: aliceblue;
+      text-shadow: 1px 1px black;
     }
 
-    .jumbotron h1 {
+    .jumb h1 {
       text-align: center;
     }
-
+    .bgimage {
+      background-image: url("../../static/image/studentclickbg.jpg");
+      height: 100%;
+      width: 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      filter: blur(2px);
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
   </style>
 
 </head>
@@ -24,9 +40,10 @@
 
   {% include "quiz/navbar.html" %}
   <br><br>
-  <div class="jumbotron" style="margin-bottom:0px;">
+  <div class="bgimage"></div>
+  <div class="jumb" >
     <h1 class="display-4">Hello, Student</h1>
-    <p class="lead">Welcome to Online Quiz</p>
+    <p class="lead">Welcome to Bingo Buddy</p>
     <hr class="my-4">
     <p>You can access various features after Login.</p>
     <p class="lead">

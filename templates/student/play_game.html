@@ -21,9 +21,6 @@
 
     /* General Styles */
 
-    * {
-        /*   box-sizing: border-box; */
-    }
 
     body {
         background-color: #eee;
@@ -228,8 +225,10 @@
     .boardcontainer {
         width: 100%;
         padding-top: 100%;
+        top: 0;
+        left: 0;
         /* 1:1 Aspect Ratio */
-        position: relative;
+        position: absolute;
         /* If you want text inside of it */
     }
 
