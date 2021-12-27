@@ -10,11 +10,5 @@ path('student-dashboard', views.student_dashboard_view,name='student-dashboard')
 path('student-exam', views.student_exam_view,name='student-exam'),
 path('enter-game/<int:pk>',views.enter_game,name='enter_game'),
 path('game',views.game,name='game'),
-
-path('view-result', views.view_result_view,name='view-result'),
-path('check-marks/<int:pk>', views.check_marks_view,name='check-marks'),
-
-
-
 path('start-game/<room_code>',views.startGame,name='start-game'),
 ]

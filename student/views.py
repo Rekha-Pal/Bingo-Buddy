@@ -70,7 +70,6 @@ def game(request):
 
         if option == '1':
             game = Game.objects.filter(room_code=room_code).first()
-
             if game is None:
                 messages.success(request, "Room code not found")
                 return redirect('enter_game',cid['pk'])
@@ -81,6 +80,7 @@ def game(request):
 
             game.game_opponent = username
             game.save()
+            return redirect('start-game/' + room_code + '?username=' + username)
         else:
             game = Game(game_creator=username, room_code=room_code)
             game.save()
@@ -108,23 +108,8 @@ def startGame(request,room_code):
     )
     context['room_code'] = room_code
     context['username'] = request.GET.get('username')
-    return render(request, 'student/ended.html',context)
+    print(room_code)
+    return render(request, 'student/game.html', context)
 
-
-
-@login_required(login_url='studentlogin')
-@user_passes_test(is_student)
-def view_result_view(request):
-    courses=QMODEL.Course.objects.all()
-    return render(request,'student/view_result.html',{'courses':courses})
-    
-
-@login_required(login_url='studentlogin')
-@user_passes_test(is_student)
-def check_marks_view(request,pk):
-    course=QMODEL.Course.objects.get(id=pk)
-    student = models.Student.objects.get(user_id=request.user.id)
-    results= QMODEL.Result.objects.all().filter(exam=course).filter(student=student)
-    return render(request,'student/check_marks.html',{'results':results})
 
 

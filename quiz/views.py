@@ -112,7 +112,6 @@ def admin_view_pending_teacher_view(request):
 
 @login_required(login_url='adminlogin')
 def approve_teacher_view(request,pk):
-    #if request.method=='POST':
     teacher=TMODEL.Teacher.objects.get(id=pk)
     teacher.status=True
     teacher.save()
@@ -239,27 +238,6 @@ def delete_question_view(request,pk):
     question.delete()
     return HttpResponseRedirect('/admin-view-question')
 
-@login_required(login_url='adminlogin')
-def admin_view_student_marks_view(request):
-    students= SMODEL.Student.objects.all()
-    return render(request,'quiz/admin_view_student_marks.html',{'students':students})
-
-@login_required(login_url='adminlogin')
-def admin_view_marks_view(request,pk):
-    courses = models.Course.objects.all()
-    response =  render(request,'quiz/admin_view_marks.html',{'courses':courses})
-    response.set_cookie('student_id',str(pk))
-    return response
-
-@login_required(login_url='adminlogin')
-def admin_check_marks_view(request,pk):
-    course = models.Course.objects.get(id=pk)
-    student_id = request.COOKIES.get('student_id')
-    student= SMODEL.Student.objects.get(id=student_id)
-
-    results= models.Result.objects.all().filter(exam=course).filter(student=student)
-    return render(request,'quiz/admin_check_marks.html',{'results':results})
-    
 
 
 
